@@ -17,14 +17,37 @@
 
 ### Core version - Assets preparation status
 
-|                | Time           | Status          |
-| :------------- | :------------: | --------------: |
-| 2D Sprites     | 4h             | ----  30% ----- |
-| Animations     | 0h             | ----   0% ----- |
-| System design  | 0h             | ----   0% ----- |
-| Level design   | 0h             | ----   0% ----- |
-| Sound FX       | 0h             | ----   0% ----- |
-| Soundtrack     | 0h             | ----   0% ----- |
+|                              | Time              | Status            |
+| :--------------------------- | :---------------: | ----------------: |
+| ** 2D Sprites             ** | 4h                | 25%               |
+| * - Characters             * | 0h                | 0%                |
+| * - Interior               * | 0h                | 0%                |
+| * - Exterior               * | 3h                | 100%              |
+| * - Interface              * | 0h                | 0%                |
+|                              |                   |                   |
+| ** Animations             ** | 0h                | 0%                |
+| * - Characters             * | 0h                | 0%                |
+| * - Props                  * | 0h                | 0%                |
+|                              |                   |                   |
+| ** System design          ** | 0h                | 0%                |
+| * - Player movement        * | 0h                | 0%                |
+| * - NPC movement           * | 0h                | 0%                |
+| * - Level transition       * | 0h                | 0%                |
+| * - Camera                 * | 0h                | 0%                |
+| * - Game Interface         * | 0h                | 0%                |
+| * - Scripting              * | 0h                | 0%                |
+|                              |                   |                   |
+| ** Level design           ** | 0h                | 0%                |
+| * - World partition        * | 0h                | 0%                |
+| * - Main map               * | 0h                | 0%                |
+| * - Buildings interior     * | 0h                | 0%                |
+|                              |                   |                   |
+| ** Audio                  ** | 0h                | 0%                |
+| * - Sound FX               * | 0h                | 0%                |
+| * - Soundtrack             * | 0h                | 0%                |
+|                              |                   |                   |
+| ** Summary                ** |                   | ** In Progress ** |
+| ** Preparations           ** | 2h                | ** Uncountable ** |
 
 ## License
 
