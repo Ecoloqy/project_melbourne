@@ -19,18 +19,26 @@
 
 |                              | Time              | Status            |
 | :--------------------------- | :---------------: | ----------------: |
-| ** 2D Sprites             ** | 4h                | 25%               |
+| ** Design                 ** | 1h                | 0%                |
 | * - Characters             * | 0h                | 0%                |
-| * - Interior               * | 0h                | 0%                |
+| * - Locations              * | 0h                | 0%                |
+| * - Environment            * | 0h                | 0%                |
+| * - Monsters               * | 0h                | 0%                |
+| * - Fauna                  * | 0h                | 0%                |
+| * - Flora                  * | 0h                | 0%                |
+|                              |                   |                   |
+| ** 2D Sprites             ** | 4h                | 50%               |
+| * - Characters             * | 30m               | 0%                |
+| * - Interior               * | 3h30min           | 100%              |
 | * - Exterior               * | 3h                | 100%              |
 | * - Interface              * | 0h                | 0%                |
 |                              |                   |                   |
 | ** Animations             ** | 0h                | 0%                |
-| * - Characters             * | 0h                | 0%                |
+| * - Characters             * | 1h30min           | 10%               |
 | * - Props                  * | 0h                | 0%                |
 |                              |                   |                   |
 | ** System design          ** | 0h                | 0%                |
-| * - Player movement        * | 0h                | 0%                |
+| * - Player movement        * | 3h                | 50%               |
 | * - NPC movement           * | 0h                | 0%                |
 | * - Level transition       * | 0h                | 0%                |
 | * - Camera                 * | 0h                | 0%                |
