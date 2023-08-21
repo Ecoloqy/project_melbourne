@@ -21,7 +21,7 @@
 | :--------------------------- | :---------------: | ----------------: |
 | ** Design                 ** | 1h                | 0%                |
 | * - Characters             * | 0h                | 0%                |
-| * - Locations              * | 0h                | 0%                |
+| * - Locations              * | 2h                | 0%                |
 | * - Environment            * | 0h                | 0%                |
 | * - Monsters               * | 0h                | 0%                |
 | * - Fauna                  * | 0h                | 0%                |
@@ -38,12 +38,12 @@
 | * - Props                  * | 0h                | 0%                |
 |                              |                   |                   |
 | ** System design          ** | 0h                | 0%                |
-| * - Player movement        * | 3h                | 50%               |
+| * - Player movement        * | 4h                | 50%               |
 | * - NPC movement           * | 0h                | 0%                |
-| * - Level transition       * | 0h                | 0%                |
-| * - Camera                 * | 0h                | 0%                |
+| * - Level transition       * | 2h                | 0%                |
+| * - Camera                 * | 1h                | 0%                |
 | * - Game Interface         * | 0h                | 0%                |
-| * - Scripting              * | 0h                | 0%                |
+| * - Scripting              * | 1h30min           | 0%                |
 |                              |                   |                   |
 | ** Level design           ** | 0h                | 0%                |
 | * - World partition        * | 0h                | 0%                |

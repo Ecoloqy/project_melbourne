@@ -7,14 +7,18 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour {
     public float moveSpeed = 1f;
     public float collisionOffset = 0.05f;
+    public float inputHorizontal = 0f;
+    public float inputVertical = -1f;
     public ContactFilter2D movementFilter;
+    public LayerMask interactionLayer;
 
-    private float _inputHorizontal = 0f;
-    private float _inputVertical = -1f;
     private Vector2 _movementInput;
     private Rigidbody2D _rigidbody;
     private Animator _animator;
     private List<RaycastHit2D> _castCollisions = new List<RaycastHit2D>();
+    private float _raycastLength = 0.1f;
+
+    private bool _isMovable = true;
 
     void Start() {
         _rigidbody = GetComponent<Rigidbody2D>();
@@ -22,8 +26,8 @@ public class PlayerController : MonoBehaviour {
     }
 
     void Update() {
-        _inputHorizontal = Input.GetAxisRaw("Horizontal");
-        _inputVertical = Input.GetAxisRaw("Vertical");
+        inputHorizontal = Input.GetAxisRaw("Horizontal");
+        inputVertical = Input.GetAxisRaw("Vertical");
     }
 
     void FixedUpdate() {
@@ -42,18 +46,37 @@ public class PlayerController : MonoBehaviour {
             _animator.SetBool("isMoving", false);
         }
         
-        if (_inputHorizontal != 0 || _inputVertical != 0) {
-            _animator.SetFloat("xFacing", _inputHorizontal);
-            _animator.SetFloat("yFacing", _inputVertical);
+        if (inputHorizontal != 0 || inputVertical != 0) {
+            _animator.SetFloat("xFacing", inputHorizontal);
+            _animator.SetFloat("yFacing", inputVertical);
         }
     }
 
     void OnMove(InputValue movementValue) {
-        _movementInput = movementValue.Get<Vector2>();
+        if (_isMovable) {
+            _movementInput = movementValue.Get<Vector2>();
+        }
     }
 
     void OnFire() {
+        _movementInput = new Vector2(0, 0);
+        
+        _isMovable = false;
         _animator.SetTrigger("pick");
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, new Vector2(_animator.GetFloat("xFacing"), _animator.GetFloat("yFacing")), _raycastLength, interactionLayer);
+        Debug.DrawRay(transform.position, new Vector2(GetRaycastLength(_animator.GetFloat("xFacing")), GetRaycastLength(_animator.GetFloat("yFacing"))), Color.red, 10f);
+        Debug.Log(hit.collider);
+        
+        if (hit.collider != null)
+        {
+            ITriggerInteraction triggerInteractionObject = hit.collider.GetComponent<ITriggerInteraction>();
+            Debug.Log(triggerInteractionObject);
+            if (triggerInteractionObject != null) {
+                triggerInteractionObject.TriggerInteraction(gameObject);
+            }
+        }
+
+        StartCoroutine(UnlockPlayer());
     }
 
     private bool TryMove(Vector2 direction) {
@@ -71,5 +94,14 @@ public class PlayerController : MonoBehaviour {
         }
 
         return false;
+    }
+
+    private float GetRaycastLength(float value) {
+        return value * _raycastLength;
+    }
+
+    private IEnumerator UnlockPlayer() {
+        yield return new WaitForSeconds(0.5f);
+        _isMovable = true;
     }
 }

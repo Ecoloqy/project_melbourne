@@ -5,11 +5,17 @@ TagManager:
   serializedVersion: 2
   tags:
   - NPC
+  - Ground
+  - Water
+  - Props
+  - Colliders
+  - Foreground
+  - TransparentForeground
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Interaction
   - Water
   - UI
   - 
