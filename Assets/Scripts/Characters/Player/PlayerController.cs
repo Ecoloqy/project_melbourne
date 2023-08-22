@@ -17,17 +17,34 @@ public class PlayerController : MonoBehaviour {
     private Animator _animator;
     private List<RaycastHit2D> _castCollisions = new List<RaycastHit2D>();
     private float _raycastLength = 0.1f;
+    private DialogueUI _dialogueUI;
 
     private bool _isMovable = true;
 
     void Start() {
         _rigidbody = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
+        _dialogueUI = FindObjectOfType<DialogueUI>();
     }
 
     void Update() {
-        inputHorizontal = Input.GetAxisRaw("Horizontal");
-        inputVertical = Input.GetAxisRaw("Vertical");
+        if (!_dialogueUI.IsDisplayingDialogue()) {
+            inputHorizontal = Input.GetAxisRaw("Horizontal");
+            inputVertical = Input.GetAxisRaw("Vertical");
+
+            RaycastHit2D hit = Physics2D.Raycast(transform.position,
+                new Vector2(_animator.GetFloat("xFacing"), _animator.GetFloat("yFacing")), _raycastLength,
+                interactionLayer);
+            Debug.DrawLine(transform.position,
+                new Vector2(transform.position.x + inputHorizontal, transform.position.y + inputVertical), Color.red,
+                1f);
+            if (hit.collider != null) {
+                ITouchInteraction touchInteractionObject = hit.collider.GetComponent<ITouchInteraction>();
+                if (touchInteractionObject != null) {
+                    touchInteractionObject.TouchInteraction(gameObject, GetPlayerStandingDirection());
+                }
+            }
+        }
     }
 
     void FixedUpdate() {
@@ -39,13 +56,13 @@ public class PlayerController : MonoBehaviour {
                     TryMove(new Vector2(0, _movementInput.y));
                 }
             }
-            
+        
             _animator.SetBool("isMoving", success);
         }
         else {
             _animator.SetBool("isMoving", false);
         }
-        
+    
         if (inputHorizontal != 0 || inputVertical != 0) {
             _animator.SetFloat("xFacing", inputHorizontal);
             _animator.SetFloat("yFacing", inputVertical);
@@ -53,30 +70,29 @@ public class PlayerController : MonoBehaviour {
     }
 
     void OnMove(InputValue movementValue) {
-        if (_isMovable) {
+        if (_isMovable && !_dialogueUI.IsDisplayingDialogue()) {
             _movementInput = movementValue.Get<Vector2>();
         }
     }
 
     void OnFire() {
-        _movementInput = new Vector2(0, 0);
+        if (!_dialogueUI.IsDisplayingDialogue()) {
+            _movementInput = new Vector2(0, 0);
         
-        _isMovable = false;
-        _animator.SetTrigger("pick");
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, new Vector2(_animator.GetFloat("xFacing"), _animator.GetFloat("yFacing")), _raycastLength, interactionLayer);
-        Debug.DrawRay(transform.position, new Vector2(GetRaycastLength(_animator.GetFloat("xFacing")), GetRaycastLength(_animator.GetFloat("yFacing"))), Color.red, 10f);
-        Debug.Log(hit.collider);
-        
-        if (hit.collider != null)
-        {
-            ITriggerInteraction triggerInteractionObject = hit.collider.GetComponent<ITriggerInteraction>();
-            Debug.Log(triggerInteractionObject);
-            if (triggerInteractionObject != null) {
-                triggerInteractionObject.TriggerInteraction(gameObject);
-            }
-        }
+            _isMovable = false;
+            _animator.SetTrigger("pick");
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, new Vector2(_animator.GetFloat("xFacing"), _animator.GetFloat("yFacing")), _raycastLength, interactionLayer);
 
-        StartCoroutine(UnlockPlayer());
+            if (hit.collider != null)
+            {
+                ITriggerInteraction triggerInteractionObject = hit.collider.GetComponent<ITriggerInteraction>();
+                if (triggerInteractionObject != null) {
+                    triggerInteractionObject.TriggerInteraction(gameObject, GetPlayerStandingDirection());
+                }
+            }
+
+            StartCoroutine(UnlockPlayer());
+        }
     }
 
     private bool TryMove(Vector2 direction) {
@@ -96,8 +112,19 @@ public class PlayerController : MonoBehaviour {
         return false;
     }
 
-    private float GetRaycastLength(float value) {
-        return value * _raycastLength;
+    private Direction GetPlayerStandingDirection() {
+        var facingXPos = _animator.GetFloat("xFacing");
+        var facingYPos = _animator.GetFloat("yFacing");
+        if (facingXPos > 0 && facingYPos == 0) {
+            return Direction.EAST;
+        }
+        if (facingXPos < 0 && facingYPos == 0) {
+            return Direction.WEST;
+        }
+        if (facingXPos == 0 && facingYPos < 0) {
+            return Direction.SOUTH;
+        }
+        return Direction.NORTH;
     }
 
     private IEnumerator UnlockPlayer() {

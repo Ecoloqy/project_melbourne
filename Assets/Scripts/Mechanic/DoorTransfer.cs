@@ -4,8 +4,10 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class DoorTransfer : MonoBehaviour, ITriggerInteraction {
-    public string sceneName;
-    public Vector2 enterCords;
+    public string inputSceneName;
+    public string outputSceneName;
+    public List<Direction> collideDirection = new List<Direction>();
+    public bool loadNewScene = false;
     
     private Animator _animator;
     private bool _isOpenedState;
@@ -14,28 +16,47 @@ public class DoorTransfer : MonoBehaviour, ITriggerInteraction {
         _animator = GetComponent<Animator>();
     }
 
-    public void TriggerInteraction(GameObject eGameObject) {
-        StartCoroutine(Interact(gameObject));
+    public void TriggerInteraction(GameObject eGameObject, Direction direction) {
+        StartCoroutine(Interact(gameObject, direction));
     }
 
-    private IEnumerator Interact(GameObject eGameObject) {
-        Debug.Log("Hello Props");
-        
-        if (_isOpenedState) {
-            _animator.SetTrigger("close");
-        } else {
-            _animator.SetTrigger("open");
-        }
-        _isOpenedState = !_isOpenedState;
+    private IEnumerator Interact(GameObject eGameObject, Direction direction) {
+        if (collideDirection.Contains(direction)) {
+            if (_isOpenedState) {
+                _animator.SetTrigger("close");
+            }
+            else {
+                _animator.SetTrigger("open");
+            }
 
-        yield return new WaitForSeconds(0.5f);
-        SceneManager.LoadScene(sceneName, LoadSceneMode.Single);
-        SceneManager.GetSceneByName("Village");
-        // eGameObject.transform.position = new Vector3(enterCords.x, enterCords.y, 0f);
+            _isOpenedState = !_isOpenedState;
 
-        if (sceneName != null) {
-            yield return new WaitForSeconds(1f);
-            _animator.Play("door_closed_state");
+            yield return new WaitForSeconds(0.5f);
+
+            var activeSceneObjects = SceneManager.GetSceneByName(inputSceneName).GetRootGameObjects();
+            activeSceneObjects[activeSceneObjects.Length - 1].SetActive(false);
+
+            if (loadNewScene) {
+                SceneManager.LoadScene(outputSceneName, LoadSceneMode.Additive);
+                loadNewScene = false;
+            }
+            else {
+                var scene = SceneManager.GetSceneByName(outputSceneName);
+                SceneManager.SetActiveScene(scene);
+            }
+
+            var newSceneObjects = SceneManager.GetSceneByName(outputSceneName).GetRootGameObjects();
+            if (newSceneObjects.Length > 0) {
+                var sceneGrid = newSceneObjects[newSceneObjects.Length - 1];
+                if (sceneGrid != null) {
+                    newSceneObjects[newSceneObjects.Length - 1].SetActive(true);
+                }
+            }
+
+            if (inputSceneName != null && outputSceneName != null) {
+                yield return new WaitForSeconds(1f);
+                _animator.Play("door_closed_state");
+            }
         }
     }
 }

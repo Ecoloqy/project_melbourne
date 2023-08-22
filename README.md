@@ -19,8 +19,8 @@
 
 |                              | Time              | Status            |
 | :--------------------------- | :---------------: | ----------------: |
-| ** Design                 ** | 1h                | 0%                |
-| * - Characters             * | 0h                | 0%                |
+| ** Design                 ** | 4h                | 0%                |
+| * - Characters             * | 2h                | 2%                |
 | * - Locations              * | 2h                | 0%                |
 | * - Environment            * | 0h                | 0%                |
 | * - Monsters               * | 0h                | 0%                |
@@ -33,12 +33,13 @@
 | * - Exterior               * | 3h                | 100%              |
 | * - Interface              * | 0h                | 0%                |
 |                              |                   |                   |
-| ** Animations             ** | 0h                | 0%                |
+| ** Animations             ** | 1h30min           | 0%                |
 | * - Characters             * | 1h30min           | 10%               |
-| * - Props                  * | 0h                | 0%                |
+| * - Props                  * | 2h                | 1%                |
 |                              |                   |                   |
-| ** System design          ** | 0h                | 0%                |
+| ** System design          ** | 11h30min          | 0%                |
 | * - Player movement        * | 4h                | 50%               |
+| * - Dialogue system        * | 3h                | 33%               |
 | * - NPC movement           * | 0h                | 0%                |
 | * - Level transition       * | 2h                | 0%                |
 | * - Camera                 * | 1h                | 0%                |
@@ -48,7 +49,7 @@
 | ** Level design           ** | 0h                | 0%                |
 | * - World partition        * | 0h                | 0%                |
 | * - Main map               * | 0h                | 0%                |
-| * - Buildings interior     * | 0h                | 0%                |
+| * - Buildings interior     * | 2h                | 2%                |
 |                              |                   |                   |
 | ** Audio                  ** | 0h                | 0%                |
 | * - Sound FX               * | 0h                | 0%                |
