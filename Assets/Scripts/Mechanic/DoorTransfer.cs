@@ -34,7 +34,12 @@ public class DoorTransfer : MonoBehaviour, ITriggerInteraction {
             yield return new WaitForSeconds(0.5f);
 
             var activeSceneObjects = SceneManager.GetSceneByName(inputSceneName).GetRootGameObjects();
-            activeSceneObjects[activeSceneObjects.Length - 1].SetActive(false);
+            foreach (var sceneObject in activeSceneObjects) {
+                Debug.Log(sceneObject.name);
+                if (sceneObject.name == "Grid") {
+                    sceneObject.SetActive(false);
+                }
+            }
 
             if (loadNewScene) {
                 SceneManager.LoadScene(outputSceneName, LoadSceneMode.Additive);
@@ -47,9 +52,11 @@ public class DoorTransfer : MonoBehaviour, ITriggerInteraction {
 
             var newSceneObjects = SceneManager.GetSceneByName(outputSceneName).GetRootGameObjects();
             if (newSceneObjects.Length > 0) {
-                var sceneGrid = newSceneObjects[newSceneObjects.Length - 1];
-                if (sceneGrid != null) {
-                    newSceneObjects[newSceneObjects.Length - 1].SetActive(true);
+                foreach (var newSceneObject in newSceneObjects) {
+                    Debug.Log(newSceneObject.name);
+                    if (newSceneObject.name == "Grid") {
+                        newSceneObject.SetActive(true);
+                    }
                 }
             }
 
